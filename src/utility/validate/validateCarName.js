@@ -4,7 +4,7 @@
  * @returns {string}
  */
 export default function validateCarName(cars) {
-  const hasEmptyName = cars.some(car => !car.trim());
+  const hasEmptyName = cars.some((car) => !car.trim());
   if (hasEmptyName) return 'CAR_NAME_EMPTY';
   return '';
 }
