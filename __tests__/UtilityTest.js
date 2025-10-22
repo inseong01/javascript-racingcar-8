@@ -1,3 +1,4 @@
+import chooseMessage from "../src/utility/chooseMessage";
 import throwMessage from "../src/utility/throwMessage";
 import validateCarName from "../src/utility/validate/validateCarName";
 import validateTries from "../src/utility/validate/validateTries";
@@ -33,6 +34,15 @@ describe("유틸리티 테스트", () => {
       if (!input) return expect(fnBox).not.toThrow(outputs[i])
 
       expect(fnBox).toThrow(outputs[i]);
+    })
+  })
+
+  test("chooseMessage", async () => {
+    const inputs = ['CAR_NAME_EMPTY', 'EMPTY_TRY', ''];
+    const outputs = ['[ERROR] 자동차 이름이 비어있습니다.', '[ERROR] 시도 횟수를 다시 입력해주세요.', ''];
+
+    inputs.forEach((input, i) => {
+      expect(chooseMessage(input)).toBe(outputs[i]);
     })
   })
 });
