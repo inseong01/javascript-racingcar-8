@@ -1,3 +1,4 @@
+import throwMessage from "../src/utility/throwMessage";
 import validateCarName from "../src/utility/validate/validateCarName";
 import validateTries from "../src/utility/validate/validateTries";
 
@@ -17,6 +18,21 @@ describe("유틸리티 테스트", () => {
 
     inputs.forEach((input, i) => {
       expect(validateTries(input)).toBe(outputs[i]);
+    })
+  })
+
+  test("throwMessage", async () => {
+    const inputs = ['message 1', ''];
+    const outputs = ['message 1', ''];
+
+    inputs.forEach((input, i) => {
+      function fnBox() {
+        throwMessage(input);
+      }
+
+      if (!input) return expect(fnBox).not.toThrow(outputs[i])
+
+      expect(fnBox).toThrow(outputs[i]);
     })
   })
 });
