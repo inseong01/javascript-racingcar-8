@@ -11,7 +11,7 @@ export function findWinners(cars, highScore) {
 
 /**
  * 승리 차량 이름 배열 반환하는 함수
- * @param {Array} winners 클래스로 생성된 차량
+ * @param {Car[]} winners 클래스로 생성된 차량
  * @returns 승리자 이름 배열
  */
 export function getWinnerNames(winners) {
