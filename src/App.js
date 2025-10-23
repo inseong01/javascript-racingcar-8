@@ -2,7 +2,9 @@ import { Console } from '@woowacourse/mission-utils';
 
 class App {
   async run() {
-    await this.getUserInput();
+    const names = await this.getCarNames();
+    const tries = await this.getTryNumber();
+    this.race(names, tries);
   }
 
   async getCarNames() {
@@ -13,10 +15,6 @@ class App {
   async getTryNumber() {
     const input = await Console.readLineAsync('시도할 횟수는 몇 회인가요?\n');
     return input;
-  }
-
-  printResult(result) {
-    Console.print(result);
   }
 }
 

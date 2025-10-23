@@ -1,7 +1,7 @@
 class Car {
-  constructor(name, dash) {
+  constructor(name) {
     this.name = name;
-    this.dash = dash;
+    this.dash = '';
   }
 
   /**
