@@ -4,13 +4,16 @@ import chooseMessage from "../src/utility/chooseMessage";
 import throwMessage from "../src/utility/throwMessage";
 import validateCarName from "../src/utility/validate/validateCarName";
 import validateTries from "../src/utility/validate/validateTries";
-import splitNames from "../src/utility/splitNames";
 import print from "../src/utility/print";
 
 import generateRandomNum from "../src/utility/race/generateRandomNum";
 import findHighScore from "../src/utility/race/findHighScore";
 import { findWinners, getWinnerNames } from "../src/utility/race/findWinners";
 import generateCars from "../src/utility/race/generateCars";
+
+import { getCarNames, splitNames } from "../src/utility/input/getCarNames";
+import readUserInput from "../src/utility/input/readUserInput";
+import getTryNumber from "../src/utility/input/getTryNumber";
 
 import { Console } from "@woowacourse/mission-utils";
 
@@ -63,13 +66,6 @@ describe("유틸리티 테스트", () => {
     })
   })
 
-  test('splitNames', () => {
-    const input = 'a, b,c,   d,e   ';
-    const output = ['a', 'b', 'c', 'd', 'e'];
-
-    expect(splitNames(input)).toEqual(output);
-  })
-
   test("print", async () => {
     const inputs = ['결과'];
     const outputs = ['결과'];
@@ -114,6 +110,68 @@ describe("유틸리티 테스트", () => {
 
       expect(generateCars(input)).toEqual(output);
     })
+  })
+
+  describe.only('input', () => {
+    const mockQuestions = (inputs) => {
+      Console.readLineAsync = jest.fn();
+
+      Console.readLineAsync.mockImplementation(() => {
+        const input = inputs.shift();
+        return Promise.resolve(input);
+      });
+    };
+
+    const getReadLineAsync = () => {
+      const readLineSpy = jest.spyOn(Console, "readLineAsync");
+      readLineSpy.mockClear();
+      return readLineSpy;
+    };
+
+    test("readUserInput, 프롬프트 안내글을 출력한다.", async () => {
+      const inputs = [' '];
+      const logs = ['경주할 자동차 이름을 입력하세요.(이름은 쉼표(,) 기준으로 구분)\n', '시도할 횟수는 몇 회인가요?\n'];
+
+      mockQuestions(inputs);
+
+      const readLineSpy = getReadLineAsync();
+
+      logs.forEach(async (log) => {
+        await readUserInput(log);
+        expect(readLineSpy).toHaveBeenCalledWith(log);
+      })
+    });
+
+    test('splitNames, 문자열을 문자로 분리한다.', () => {
+      const input = 'a, b,c,   d,e   ';
+      const output = ['a', 'b', 'c', 'd', 'e'];
+
+      expect(splitNames(input)).toEqual(output);
+    })
+
+    test("getCarNames, 자동차 이름을 입력하고 자동차 이름 배열로 반환한다.", async () => {
+      const inputs = [['a, b,c,   d,e   ']];
+      const outputs = [['a', 'b', 'c', 'd', 'e']];
+
+      inputs.forEach(async (input, i) => {
+        mockQuestions(input);
+
+        const result = await getCarNames();
+        expect(result).toEqual(outputs[i]);
+      })
+    });
+
+    test("getTryNumber, 입력한 시도횟수를 숫자로 반환한다.", async () => {
+      const inputs = [['3']];
+      const outputs = [3];
+
+      inputs.forEach(async (input, i) => {
+        mockQuestions(input);
+
+        const result = await getTryNumber();
+        expect(result).toBe(outputs[i]);
+      })
+    });
   })
 });
 
