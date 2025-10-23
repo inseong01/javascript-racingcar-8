@@ -9,7 +9,7 @@ import print from "../src/utility/print";
 
 import generateRandomNum from "../src/utility/race/generateRandomNum";
 import findHighScore from "../src/utility/race/findHighScore";
-import { findWinner, getWinnerNames } from "../src/utility/race/findWinner";
+import { findWinners, getWinnerNames } from "../src/utility/race/findWinners";
 import generateCars from "../src/utility/race/generateCars";
 
 import { Console } from "@woowacourse/mission-utils";
@@ -94,11 +94,11 @@ describe("유틸리티 테스트", () => {
       expect(findHighScore(input)).toBe(output);
     })
 
-    test('findWinner', () => {
+    test('findWinners', () => {
       const input = [[new Car('a', '-'), new Car('b', '---')], 3]
       const output = [new Car('b', '---')];
 
-      expect(findWinner(input[0], input[1])).toEqual(output);
+      expect(findWinners(input[0], input[1])).toEqual(output);
     })
 
     test('getWinnerNames', () => {

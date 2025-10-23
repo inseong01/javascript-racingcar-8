@@ -4,7 +4,7 @@
  * @param {number} highScore 최고점수
  * @returns 승리자 이름 배열
  */
-export function findWinner(cars, highScore) {
+export function findWinners(cars, highScore) {
   const winners = cars.filter((car) => car.dash.length === highScore);
   return winners;
 }
