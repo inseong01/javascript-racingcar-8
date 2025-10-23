@@ -5,6 +5,13 @@ module.exports = {
     "airbnb-base"
   ],
   "rules": {
-    "linebreak-style": ["error", "windows"]
+    "linebreak-style": ["error", "windows"],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        js: "always",
+      }
+    ]
   }
 };
