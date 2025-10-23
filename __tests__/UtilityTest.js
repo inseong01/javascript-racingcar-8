@@ -5,11 +5,20 @@ import throwMessage from "../src/utility/throwMessage";
 import validateCarName from "../src/utility/validate/validateCarName";
 import validateTries from "../src/utility/validate/validateTries";
 import splitNames from "../src/utility/splitNames";
+import print from "../src/utility/print";
+
 import generateRandomNum from "../src/utility/race/generateRandomNum";
 import findHighScore from "../src/utility/race/findHighScore";
 import { findWinner, getWinnerNames } from "../src/utility/race/findWinner";
 import generateCars from "../src/utility/race/generateCars";
 
+import { Console } from "@woowacourse/mission-utils";
+
+const getLogSpy = () => {
+  const logSpy = jest.spyOn(Console, "print");
+  logSpy.mockClear();
+  return logSpy;
+};
 
 describe("유틸리티 테스트", () => {
   test("getCarNames", async () => {
@@ -60,6 +69,18 @@ describe("유틸리티 테스트", () => {
 
     expect(splitNames(input)).toEqual(output);
   })
+
+  test("print", async () => {
+    const inputs = ['결과'];
+    const outputs = ['결과'];
+
+    const logSpy = getLogSpy();
+
+    inputs.forEach((input, i) => {
+      print(input);
+      expect(logSpy).toHaveBeenCalledWith(outputs[i]);
+    })
+  });
 
   describe('race', () => {
     test('generateRandomNum', () => {
