@@ -4,10 +4,9 @@ import { validateCarName, validateTries } from "../src/utility/validate/validate
 
 import print from "../src/utility/print";
 
-import generateRandomNum from "../src/utility/race/generateRandomNum";
-import findHighScore from "../src/utility/race/findHighScore";
-import { findWinners, getWinnerNames } from "../src/utility/race/findWinners";
-import generateCars from "../src/utility/race/generateCars";
+import { findHighScore, findWinners, getWinnerNames } from "../src/utility/race/find";
+import { generateRandomNum, generateCars } from "../src/utility/race/generate";
+import startRound, { playRoundByCar, printRoundResultByCar } from "../src/utility/race/startRound";
 
 import { getCarNames, splitNames } from "../src/utility/input/getCarNames";
 import readUserInput from "../src/utility/input/readUserInput";
@@ -18,7 +17,7 @@ import handleErrorMessage from "../src/utility/error/errorHandler";
 
 import { ERROR_MESSAGE, ERROR_TYPE } from "../src/utility/const";
 
-import { Console } from "@woowacourse/mission-utils";
+import { Console, Random } from "@woowacourse/mission-utils";
 
 const getLogSpy = () => {
   const logSpy = jest.spyOn(Console, "print");
@@ -60,11 +59,33 @@ describe("유틸리티 테스트", () => {
   });
 
   describe('race', () => {
-    test('generateRandomNum', () => {
-      expect(typeof generateRandomNum()).toBe('number');
+    const pickNumberMock = jest.fn();
+
+    afterEach(() => {
+      pickNumberMock.mockReset();
     })
 
-    test('findHighScore', () => {
+    const mockRandoms = (numbers) => {
+      Random.pickNumberInRange = pickNumberMock;
+
+      numbers.reduce((acc, number) => {
+        return acc.mockReturnValueOnce(number);
+      }, Random.pickNumberInRange);
+    };
+
+
+    test('generateRandomNum, 무작위 숫자가 반환된다.', () => {
+      const AMOUNT = 1
+
+      mockRandoms([AMOUNT]);
+
+      const result = generateRandomNum();
+
+      expect(pickNumberMock).toHaveBeenCalledTimes(1);
+      expect(result).toBe(AMOUNT);
+    })
+
+    test('findHighScore, 자동차 대시를 비교해 최고 점수를 반환한다.', () => {
       const input = [new Car('a'), new Car('b')]
       const output = 3;
 
@@ -75,7 +96,7 @@ describe("유틸리티 테스트", () => {
       expect(findHighScore(input)).toBe(output);
     })
 
-    test('findWinners', () => {
+    test('findWinners, 최고 점수 만큼의 대시를 가지고 있는 자동차를 반환한다.', () => {
       const cars = [new Car('a'), new Car('b')];
       const highScore = 3;
       const output = [cars[1]];
@@ -87,18 +108,61 @@ describe("유틸리티 테스트", () => {
       expect(findWinners(cars, highScore)).toEqual(output);
     })
 
-    test('getWinnerNames', () => {
+    test('getWinnerNames, 자동차 클래스에서 이름을 배열로 반환한다.', () => {
       const input = [new Car('b')];
       const output = ['b'];
 
       expect(getWinnerNames(input)).toEqual(output);
     })
 
-    test('generateCars', () => {
+    test('generateCars, 이름 배열을 받아 자동차 클래스로 반환한다.', () => {
       const input = ['a', 'b'];
       const output = [new Car('a'), new Car('b')];
 
       expect(generateCars(input)).toEqual(output);
+    })
+
+    test('printRoundResultByCar, 자동차 이름과 대시가 출력된다.', () => {
+      const carArr = [new Car('a'), new Car('b')];
+      const carIdx = 0;
+      const car = carArr[carIdx];
+      const AMOUNT = 3;
+
+      const logSpy = getLogSpy();
+      mockRandoms([AMOUNT]);
+
+      printRoundResultByCar(car, carIdx, carArr);
+
+      expect(logSpy).toHaveBeenCalledWith(`${car.name} : ${AMOUNT > 3 ? '-' : ''}`);
+    })
+
+    test('playRoundByCar, 차동차가 움직이고 결과(이름, 대시)가 출력된다.', () => {
+      const carArr = [new Car('a'), new Car('b')];
+      const carIdx = 0;
+      const car = carArr[carIdx];
+      const AMOUNT = 3;
+
+      const logSpy = getLogSpy();
+      mockRandoms([AMOUNT]);
+
+      playRoundByCar(car, carIdx, carArr);
+
+      expect(pickNumberMock).toHaveBeenCalledTimes(1);
+      expect(logSpy).toHaveBeenCalledWith(`${car.name} : ${AMOUNT > 3 ? '-' : ''}`);
+    })
+
+    test('startRound, 차동차 수 만큼 자동차가 움직이고 결과가 출력된다.', () => {
+      const carArr = [new Car('a'), new Car('b')];
+      const TRIES = 3;
+      const AMOUNT = 0;
+
+      const logSpy = getLogSpy();
+      mockRandoms([AMOUNT]);
+
+      startRound(carArr, TRIES);
+
+      expect(pickNumberMock).toHaveBeenCalledTimes(6);
+      expect(logSpy).toHaveBeenCalledTimes(6);
     })
   })
 

@@ -1,6 +1,6 @@
 import print from './utility/print.js';
-import generateCars from './utility/race/generateCars.js';
-import showRaceResult from './utility/race/showRaceResult.js';
+import { generateCars } from './utility/race/generate.js';
+import printRaceResult from './utility/race/printRaceResult.js';
 import startRound from './utility/race/startRound.js';
 
 class Race {
@@ -16,7 +16,7 @@ class Race {
    */
   setInitRace(names, tries) {
     this.cars = generateCars(names);
-    this.tries = tries;
+    this.tries = Number(tries);
   }
 
   /**
@@ -27,7 +27,7 @@ class Race {
 
     startRound(this.cars, this.tries);
 
-    showRaceResult(this.cars);
+    printRaceResult(this.cars);
   }
 }
 

@@ -1,4 +1,20 @@
 /**
+ * 가장 높은 점수를 찾는 함수
+ * @param {Array} cars 클래스로 생성된 차량
+ * @returns 가장 높은 점수
+ */
+export function findHighScore(cars) {
+  let highScore = 0;
+
+  cars.forEach((car) => {
+    const carScore = car.dash.length;
+    highScore = Math.max(carScore, highScore);
+  });
+
+  return highScore;
+}
+
+/**
  * 최고점수로 승리 차량 판별해 차량 이름 배열 반환하는 함수
  * @param {Array} cars 클래스로 생성된 차량
  * @param {number} highScore 최고점수
