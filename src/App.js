@@ -3,15 +3,22 @@ import getTryNumber from './utility/input/getTryNumber.js';
 import validateCarName from './utility/validate/validateCarName.js';
 import validateTries from './utility/validate/validateTries.js';
 import handleErrorMessage from './utility/error/errorHandler.js';
+import { PROMPT } from './utility/const.js';
+
 import Race from './Race.js';
 
 class App {
+  constructor() {
+    this.firstPrompt = PROMPT.SET_CAR_NAME;
+    this.secondPrompt = PROMPT.SET_TRY_NUMBER;
+  }
+
   async run() {
-    const carNames = await getCarNames();
+    const carNames = await getCarNames(this.firstPrompt);
     const carNameError = validateCarName(carNames);
     handleErrorMessage(carNameError);
 
-    const tries = await getTryNumber();
+    const tries = await getTryNumber(this.secondPrompt);
     const triesError = validateTries(tries);
     handleErrorMessage(triesError);
 

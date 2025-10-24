@@ -89,7 +89,7 @@ describe("유틸리티 테스트", () => {
     })
   })
 
-  describe('input', () => {
+  describe.only('input', () => {
     const mockQuestions = (inputs) => {
       Console.readLineAsync = jest.fn();
 
@@ -126,32 +126,42 @@ describe("유틸리티 테스트", () => {
       expect(splitNames(input)).toEqual(output);
     })
 
-    test("getCarNames, 자동차 이름을 입력하고 자동차 이름 배열로 반환한다.", async () => {
+    test("getCarNames, 자동차 이름을 입력하고 이름을 배열로 반환하며 설정한 프롬프트를 출력한다.", async () => {
       const inputs = [['a, b,c,   d,e   ']];
       const outputs = [['a', 'b', 'c', 'd', 'e']];
+      const prompt = 'getCarNames 함수입니다.';
 
       inputs.forEach(async (input, i) => {
         mockQuestions(input);
 
-        const result = await getCarNames();
+        const readLineSpy = getReadLineAsync();
+
+        const result = await getCarNames(prompt);
         expect(result).toEqual(outputs[i]);
+
+        expect(readLineSpy).toHaveBeenCalledWith(prompt);
       })
     });
 
-    test("getTryNumber, 입력한 시도횟수를 숫자로 반환한다.", async () => {
+    test("getTryNumber, 입력한 시도횟수를 숫자로 반환하며 설정한 프롬프트를 출력한다.", async () => {
       const inputs = [['3']];
       const outputs = [3];
+      const prompt = 'getTryNumber 함수입니다.';
 
       inputs.forEach(async (input, i) => {
         mockQuestions(input);
 
-        const result = await getTryNumber();
+        const readLineSpy = getReadLineAsync();
+
+        const result = await getTryNumber(prompt);
         expect(result).toBe(outputs[i]);
+
+        expect(readLineSpy).toHaveBeenCalledWith(prompt);
       })
     });
   })
 
-  describe.only('error', () => {
+  describe('error', () => {
     test("throwMessage, 메시지가 있으면 오류를 던진다.", async () => {
       const inputs = ['message 1', ''];
       const outputs = ['message 1', ''];

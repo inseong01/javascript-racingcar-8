@@ -1,7 +1,5 @@
 import readUserInput from './readUserInput.js';
 
-const INPUT_CAR_NAME_PROMPT = '경주할 자동차 이름을 입력하세요.(이름은 쉼표(,) 기준으로 구분)\n';
-
 /**
  * 자동차 이름 문자를 배열로 나누는 함수
  * @param {string} names 쉼표로 구분된 자동차 이름 문자
@@ -14,10 +12,11 @@ export function splitNames(names) {
 
 /**
  * 자동차 이름 입출력 함수
+ * @param {string} prompt 안내 프롬프트 문구
  * @returns {Promise<string[]>}
  */
-export async function getCarNames() {
-  const names = await readUserInput(INPUT_CAR_NAME_PROMPT);
+export async function getCarNames(prompt) {
+  const names = await readUserInput(prompt);
   const carNameArr = splitNames(names);
   return carNameArr;
 }
