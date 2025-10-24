@@ -5,6 +5,6 @@
  */
 export default function validateCarName(cars) {
   const hasEmptyName = cars.some((car) => !car.trim());
-  if (hasEmptyName) return 'CAR_NAME_EMPTY';
+  if (hasEmptyName) return ERROR_TYPE.EMPTY_CAR_NAME;
   return '';
 }

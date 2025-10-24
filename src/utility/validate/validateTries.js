@@ -5,6 +5,6 @@
  */
 export default function validateTries(tries) {
   const isEmpty = !tries;
-  if (isEmpty) return 'EMPTY_TRY';
+  if (isEmpty) return ERROR_TYPE.EMPTY_TRY;
   return '';
 }

@@ -24,7 +24,6 @@ class App {
 
     const race = new Race();
     race.setInitRace(carNames, tries);
-
     race.start();
   }
 }

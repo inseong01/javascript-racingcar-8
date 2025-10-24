@@ -16,6 +16,8 @@ import getTryNumber from "../src/utility/input/getTryNumber";
 import { chooseMessage, throwMessage } from "../src/utility/error/errorMessage";
 import handleErrorMessage from "../src/utility/error/errorHandler";
 
+import { ERROR_MESSAGE, ERROR_TYPE } from "../src/utility/const";
+
 import { Console } from "@woowacourse/mission-utils";
 
 const getLogSpy = () => {
@@ -27,7 +29,7 @@ const getLogSpy = () => {
 describe("유틸리티 테스트", () => {
   test("getCarNames", async () => {
     const inputs = [['first', 'second', ' ']];
-    const outputs = ['CAR_NAME_EMPTY'];
+    const outputs = [ERROR_TYPE.EMPTY_CAR_NAME];
 
     inputs.forEach((input, i) => {
       expect(validateCarName(input)).toBe(outputs[i]);
@@ -36,7 +38,7 @@ describe("유틸리티 테스트", () => {
 
   test("validateTries", async () => {
     const inputs = [0, 1];
-    const outputs = ['EMPTY_TRY', ''];
+    const outputs = [ERROR_TYPE.EMPTY_TRY, ''];
 
     inputs.forEach((input, i) => {
       expect(validateTries(input)).toBe(outputs[i]);
@@ -89,7 +91,7 @@ describe("유틸리티 테스트", () => {
     })
   })
 
-  describe.only('input', () => {
+  describe('input', () => {
     const mockQuestions = (inputs) => {
       Console.readLineAsync = jest.fn();
 
@@ -161,7 +163,7 @@ describe("유틸리티 테스트", () => {
     });
   })
 
-  describe('error', () => {
+  describe.only('error', () => {
     test("throwMessage, 메시지가 있으면 오류를 던진다.", async () => {
       const inputs = ['message 1', ''];
       const outputs = ['message 1', ''];
@@ -178,8 +180,8 @@ describe("유틸리티 테스트", () => {
     })
 
     test("chooseMessage, 오류 유형에 맞는 오류 메시지를 반환한다.", async () => {
-      const inputs = ['CAR_NAME_EMPTY', 'EMPTY_TRY', ''];
-      const outputs = ['[ERROR] 자동차 이름이 비어있습니다.', '[ERROR] 시도 횟수를 다시 입력해주세요.', ''];
+      const inputs = [ERROR_TYPE.EMPTY_CAR_NAME, ERROR_TYPE.EMPTY_TRY, ''];
+      const outputs = [ERROR_MESSAGE.EMPTY_CAR_NAME, ERROR_MESSAGE.EMPTY_TRY, ''];
 
       inputs.forEach((input, i) => {
         expect(chooseMessage(input)).toBe(outputs[i]);
@@ -187,8 +189,8 @@ describe("유틸리티 테스트", () => {
     })
 
     test("handleErrorMessage, 오류 유형을 전달하면 해당 오류 메시지와 오류를 던진다.", async () => {
-      const inputs = ['CAR_NAME_EMPTY', 'EMPTY_TRY', ''];
-      const outputs = ['[ERROR] 자동차 이름이 비어있습니다.', '[ERROR] 시도 횟수를 다시 입력해주세요.', ''];
+      const inputs = [ERROR_TYPE.EMPTY_CAR_NAME, ERROR_TYPE.EMPTY_TRY, ''];
+      const outputs = [ERROR_MESSAGE.EMPTY_CAR_NAME, ERROR_MESSAGE.EMPTY_TRY, ''];
 
       inputs.forEach((input, i) => {
         function fnBox() {

@@ -1,3 +1,5 @@
+import { ERROR_MESSAGE, ERROR_TYPE } from '../const.js';
+
 /**
  * 메시지가 유무에 따른 오류 발생 함수
  * @param {string} msg 오류 메시지 내용
@@ -14,7 +16,7 @@ export function throwMessage(msg) {
  * @returns 오류 메시지
  */
 export function chooseMessage(type) {
-  if (type === 'CAR_NAME_EMPTY') return '[ERROR] 자동차 이름이 비어있습니다.';
-  if (type === 'EMPTY_TRY') return '[ERROR] 시도 횟수를 다시 입력해주세요.';
+  if (type === ERROR_TYPE.EMPTY_CAR_NAME) return ERROR_MESSAGE.EMPTY_CAR_NAME;
+  if (type === ERROR_TYPE.EMPTY_TRY) return ERROR_MESSAGE.EMPTY_TRY;
   return '';
 }
