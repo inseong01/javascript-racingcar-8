@@ -1,7 +1,5 @@
 import Car from "../src/Car";
 
-import chooseMessage from "../src/utility/chooseMessage";
-import throwMessage from "../src/utility/throwMessage";
 import validateCarName from "../src/utility/validate/validateCarName";
 import validateTries from "../src/utility/validate/validateTries";
 import print from "../src/utility/print";
@@ -14,6 +12,9 @@ import generateCars from "../src/utility/race/generateCars";
 import { getCarNames, splitNames } from "../src/utility/input/getCarNames";
 import readUserInput from "../src/utility/input/readUserInput";
 import getTryNumber from "../src/utility/input/getTryNumber";
+
+import { chooseMessage, throwMessage } from "../src/utility/error/errorMessage";
+import handleErrorMessage from "../src/utility/error/errorHandler";
 
 import { Console } from "@woowacourse/mission-utils";
 
@@ -39,30 +40,6 @@ describe("유틸리티 테스트", () => {
 
     inputs.forEach((input, i) => {
       expect(validateTries(input)).toBe(outputs[i]);
-    })
-  })
-
-  test("throwMessage", async () => {
-    const inputs = ['message 1', ''];
-    const outputs = ['message 1', ''];
-
-    inputs.forEach((input, i) => {
-      function fnBox() {
-        throwMessage(input);
-      }
-
-      if (!input) return expect(fnBox).not.toThrow(outputs[i])
-
-      expect(fnBox).toThrow(outputs[i]);
-    })
-  })
-
-  test("chooseMessage", async () => {
-    const inputs = ['CAR_NAME_EMPTY', 'EMPTY_TRY', ''];
-    const outputs = ['[ERROR] 자동차 이름이 비어있습니다.', '[ERROR] 시도 횟수를 다시 입력해주세요.', ''];
-
-    inputs.forEach((input, i) => {
-      expect(chooseMessage(input)).toBe(outputs[i]);
     })
   })
 
@@ -112,7 +89,7 @@ describe("유틸리티 테스트", () => {
     })
   })
 
-  describe.only('input', () => {
+  describe('input', () => {
     const mockQuestions = (inputs) => {
       Console.readLineAsync = jest.fn();
 
@@ -172,6 +149,47 @@ describe("유틸리티 테스트", () => {
         expect(result).toBe(outputs[i]);
       })
     });
+  })
+
+  describe.only('error', () => {
+    test("throwMessage, 메시지가 있으면 오류를 던진다.", async () => {
+      const inputs = ['message 1', ''];
+      const outputs = ['message 1', ''];
+
+      inputs.forEach((input, i) => {
+        function fnBox() {
+          throwMessage(input);
+        }
+
+        if (!input) return expect(fnBox).not.toThrow(outputs[i])
+
+        expect(fnBox).toThrow(outputs[i]);
+      })
+    })
+
+    test("chooseMessage, 오류 유형에 맞는 오류 메시지를 반환한다.", async () => {
+      const inputs = ['CAR_NAME_EMPTY', 'EMPTY_TRY', ''];
+      const outputs = ['[ERROR] 자동차 이름이 비어있습니다.', '[ERROR] 시도 횟수를 다시 입력해주세요.', ''];
+
+      inputs.forEach((input, i) => {
+        expect(chooseMessage(input)).toBe(outputs[i]);
+      })
+    })
+
+    test("handleErrorMessage, 오류 유형을 전달하면 해당 오류 메시지와 오류를 던진다.", async () => {
+      const inputs = ['CAR_NAME_EMPTY', 'EMPTY_TRY', ''];
+      const outputs = ['[ERROR] 자동차 이름이 비어있습니다.', '[ERROR] 시도 횟수를 다시 입력해주세요.', ''];
+
+      inputs.forEach((input, i) => {
+        function fnBox() {
+          handleErrorMessage(input)
+        }
+
+        if (!input) return expect(fnBox).not.toThrow(outputs[i]);
+
+        expect(fnBox).toThrow(outputs[i]);
+      })
+    })
   })
 });
 
