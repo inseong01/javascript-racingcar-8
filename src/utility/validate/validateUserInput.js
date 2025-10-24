@@ -17,7 +17,7 @@ export function validateCarName(cars) {
  * @param {string} tries 시도 횟수
  * @returns {string}
  */
-export function validateTries(tries) {
+export function validateTries(tries = '') {
   const isEmpty = tries.trim().length === 0;
   if (isEmpty) return ERROR_TYPE.EMPTY_TRY_NUMBER;
 
