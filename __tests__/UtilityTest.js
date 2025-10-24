@@ -65,21 +65,30 @@ describe("유틸리티 테스트", () => {
     })
 
     test('findHighScore', () => {
-      const input = [new Car('a', '-'), new Car('b', '---')]
+      const input = [new Car('a'), new Car('b')]
       const output = 3;
+
+      // 자동차 dash 임의 설정
+      input[0].dash = '-';
+      input[1].dash = '---';
 
       expect(findHighScore(input)).toBe(output);
     })
 
     test('findWinners', () => {
-      const input = [[new Car('a', '-'), new Car('b', '---')], 3]
-      const output = [new Car('b', '---')];
+      const cars = [new Car('a'), new Car('b')];
+      const highScore = 3;
+      const output = [cars[1]];
 
-      expect(findWinners(input[0], input[1])).toEqual(output);
+      // 자동차 dash 임의 설정
+      cars[0].dash = '-';
+      cars[1].dash = '---';
+
+      expect(findWinners(cars, highScore)).toEqual(output);
     })
 
     test('getWinnerNames', () => {
-      const input = [new Car('b', '---')];
+      const input = [new Car('b')];
       const output = ['b'];
 
       expect(getWinnerNames(input)).toEqual(output);
@@ -87,7 +96,7 @@ describe("유틸리티 테스트", () => {
 
     test('generateCars', () => {
       const input = ['a', 'b'];
-      const output = [new Car('a', ''), new Car('b', '')];
+      const output = [new Car('a'), new Car('b')];
 
       expect(generateCars(input)).toEqual(output);
     })

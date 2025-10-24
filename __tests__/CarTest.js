@@ -16,7 +16,7 @@ describe("기능 테스트", () => {
     const inputs = [0, 4, 3, 8];
     const outputs = ['', '-', '-', '--'];
 
-    const car = new Car('a', '');
+    const car = new Car('a');
 
     inputs.forEach((input, i) => {
       car.move(input);

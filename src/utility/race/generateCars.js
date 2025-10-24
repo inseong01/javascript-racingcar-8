@@ -6,5 +6,5 @@ import Car from '../../Car.js';
  * @return {Car[]} 자동차 배열
  */
 export default function generateCars(names) {
-  return names.map((name) => new Car(name, ''));
+  return names.map((name) => new Car(name));
 }
