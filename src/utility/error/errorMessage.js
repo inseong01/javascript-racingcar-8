@@ -17,6 +17,8 @@ export function throwMessage(msg) {
  */
 export function chooseMessage(type) {
   if (type === ERROR_TYPE.EMPTY_CAR_NAME) return ERROR_MESSAGE.EMPTY_CAR_NAME;
-  if (type === ERROR_TYPE.EMPTY_TRY) return ERROR_MESSAGE.EMPTY_TRY;
+  if (type === ERROR_TYPE.EMPTY_TRY_NUMBER) return ERROR_MESSAGE.EMPTY_TRY_NUMBER;
+  if (type === ERROR_TYPE.TRY_HAS_TEXT) return ERROR_MESSAGE.TRY_HAS_TEXT;
+  if (type === ERROR_TYPE.TRY_NUMBER_ZERO) return ERROR_MESSAGE.TRY_NUMBER_ZERO;
   return '';
 }

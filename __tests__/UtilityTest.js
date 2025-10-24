@@ -1,7 +1,7 @@
 import Car from "../src/Car";
 
-import validateCarName from "../src/utility/validate/validateCarName";
-import validateTries from "../src/utility/validate/validateTries";
+import { validateCarName, validateTries } from "../src/utility/validate/validateUserInput";
+
 import print from "../src/utility/print";
 
 import generateRandomNum from "../src/utility/race/generateRandomNum";
@@ -27,21 +27,23 @@ const getLogSpy = () => {
 };
 
 describe("유틸리티 테스트", () => {
-  test("getCarNames", async () => {
-    const inputs = [['first', 'second', ' ']];
-    const outputs = [ERROR_TYPE.EMPTY_CAR_NAME];
+  describe('validate', () => {
+    test("validateCarName, 비어있는 이름을 입력한 경우 오류를 반환한다.", async () => {
+      const inputs = [['first', 'second', ' ']];
+      const outputs = [ERROR_TYPE.EMPTY_CAR_NAME];
 
-    inputs.forEach((input, i) => {
-      expect(validateCarName(input)).toBe(outputs[i]);
+      inputs.forEach((input, i) => {
+        expect(validateCarName(input)).toBe(outputs[i]);
+      })
     })
-  })
 
-  test("validateTries", async () => {
-    const inputs = [0, 1];
-    const outputs = [ERROR_TYPE.EMPTY_TRY, ''];
+    test("validateTries, 시도 회수가 0 이하면 오류를 반환한다.", async () => {
+      const inputs = ['   ', '0', '1', '-1', 'false'];
+      const outputs = [ERROR_TYPE.EMPTY_TRY_NUMBER, ERROR_TYPE.TRY_NUMBER_ZERO, '', ERROR_TYPE.TRY_HAS_TEXT, ERROR_TYPE.TRY_HAS_TEXT];
 
-    inputs.forEach((input, i) => {
-      expect(validateTries(input)).toBe(outputs[i]);
+      inputs.forEach((input, i) => {
+        expect(validateTries(input)).toBe(outputs[i]);
+      })
     })
   })
 
@@ -147,7 +149,7 @@ describe("유틸리티 테스트", () => {
 
     test("getTryNumber, 입력한 시도횟수를 숫자로 반환하며 설정한 프롬프트를 출력한다.", async () => {
       const inputs = [['3']];
-      const outputs = [3];
+      const outputs = ['3'];
       const prompt = 'getTryNumber 함수입니다.';
 
       inputs.forEach(async (input, i) => {
@@ -163,7 +165,7 @@ describe("유틸리티 테스트", () => {
     });
   })
 
-  describe.only('error', () => {
+  describe('error', () => {
     test("throwMessage, 메시지가 있으면 오류를 던진다.", async () => {
       const inputs = ['message 1', ''];
       const outputs = ['message 1', ''];
@@ -180,8 +182,8 @@ describe("유틸리티 테스트", () => {
     })
 
     test("chooseMessage, 오류 유형에 맞는 오류 메시지를 반환한다.", async () => {
-      const inputs = [ERROR_TYPE.EMPTY_CAR_NAME, ERROR_TYPE.EMPTY_TRY, ''];
-      const outputs = [ERROR_MESSAGE.EMPTY_CAR_NAME, ERROR_MESSAGE.EMPTY_TRY, ''];
+      const inputs = Object.keys(ERROR_TYPE);
+      const outputs = Object.values(ERROR_MESSAGE);
 
       inputs.forEach((input, i) => {
         expect(chooseMessage(input)).toBe(outputs[i]);
@@ -189,8 +191,9 @@ describe("유틸리티 테스트", () => {
     })
 
     test("handleErrorMessage, 오류 유형을 전달하면 해당 오류 메시지와 오류를 던진다.", async () => {
-      const inputs = [ERROR_TYPE.EMPTY_CAR_NAME, ERROR_TYPE.EMPTY_TRY, ''];
-      const outputs = [ERROR_MESSAGE.EMPTY_CAR_NAME, ERROR_MESSAGE.EMPTY_TRY, ''];
+      const inputs = Object.keys(ERROR_TYPE);
+      const outputs = Object.values(ERROR_MESSAGE);
+
 
       inputs.forEach((input, i) => {
         function fnBox() {

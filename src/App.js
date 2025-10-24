@@ -1,7 +1,6 @@
 import { getCarNames } from './utility/input/getCarNames.js';
 import getTryNumber from './utility/input/getTryNumber.js';
-import validateCarName from './utility/validate/validateCarName.js';
-import validateTries from './utility/validate/validateTries.js';
+import { validateCarName, validateTries } from './utility/validate/validateUserInput.js';
 import handleErrorMessage from './utility/error/errorHandler.js';
 import { PROMPT } from './utility/const.js';
 
