@@ -12,7 +12,7 @@ import { getCarNames, splitNames } from "../src/utility/input/getCarNames";
 import readUserInput from "../src/utility/input/readUserInput";
 import getTryNumber from "../src/utility/input/getTryNumber";
 
-import { chooseMessage, throwMessage } from "../src/utility/error/errorMessage";
+import { chooseErrorMessage, throwMessage } from "../src/utility/error/errorMessage";
 import handleErrorMessage from "../src/utility/error/errorHandler";
 
 import { ERROR_MESSAGE, ERROR_TYPE } from "../src/utility/const";
@@ -254,12 +254,12 @@ describe("유틸리티 테스트", () => {
       })
     })
 
-    test("chooseMessage, 오류 유형에 맞는 오류 메시지를 반환한다.", async () => {
+    test("chooseErrorMessage, 오류 유형에 맞는 오류 메시지를 반환한다.", async () => {
       const inputs = Object.keys(ERROR_TYPE);
       const outputs = Object.values(ERROR_MESSAGE);
 
       inputs.forEach((input, i) => {
-        expect(chooseMessage(input)).toBe(outputs[i]);
+        expect(chooseErrorMessage(input)).toBe(outputs[i]);
       })
     })
 

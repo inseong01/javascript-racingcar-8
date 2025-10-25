@@ -15,7 +15,7 @@ export function throwMessage(msg) {
  * @param {string} type 검증 오류 유형
  * @returns 오류 메시지
  */
-export function chooseMessage(type) {
+export function chooseErrorMessage(type) {
   if (type === ERROR_TYPE.EMPTY_CAR_NAME) return ERROR_MESSAGE.EMPTY_CAR_NAME;
   if (type === ERROR_TYPE.EMPTY_TRY_NUMBER) return ERROR_MESSAGE.EMPTY_TRY_NUMBER;
   if (type === ERROR_TYPE.TRY_HAS_TEXT) return ERROR_MESSAGE.TRY_HAS_TEXT;
