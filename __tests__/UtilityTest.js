@@ -27,21 +27,95 @@ const getLogSpy = () => {
 
 describe("유틸리티 테스트", () => {
   describe('validate', () => {
-    test("validateCarName, 비어있는 이름을 입력한 경우 오류를 반환한다.", async () => {
-      const inputs = [['first', 'second', ' ']];
-      const outputs = [ERROR_TYPE.CAR_NAME_IS_EMPTY];
+    describe('validateCarName', () => {
+      const successCases = [
+        {
+          input: ['000', '001', '002'],
+          output: ''
+        },
+        {
+          input: [' 1 2 3 ', '        abc      ', 'ef'],
+          output: ''
+        },
+        {
+          input: ['12345', 'abcde', '가나다라마'],
+          output: ''
+        },
+      ]
 
-      inputs.forEach((input, i) => {
-        expect(validateCarName(input)).toBe(outputs[i]);
+      test.each(successCases)("[성공] 입력: $input", async ({ input, output }) => {
+        expect(validateCarName(input)).toBe(output);
       })
-    })
 
-    test("validateTries, 시도 회수가 0 이하면 오류를 반환한다.", async () => {
-      const inputs = ['   ', '0', '1', '-1', 'false'];
-      const outputs = [ERROR_TYPE.TRY_NUMBER_IS_EMPTY, ERROR_TYPE.TRY_NUMBER_IS_ZERO, '', ERROR_TYPE.TRY_NUMBER_HAS_TEXT, ERROR_TYPE.TRY_NUMBER_HAS_TEXT];
+      const failCases = [
+        {
+          input: ['first', 'second', '   '],
+          output: ERROR_TYPE.CAR_NAME_IS_EMPTY
+        },
+        {
+          input: ['', 'second', 'third'],
+          output: ERROR_TYPE.CAR_NAME_IS_EMPTY
+        },
+        {
+          input: ['123456', 'abc', 'ef'],
+          output: ERROR_TYPE.CAR_NAME_LENGTH_IS_OVER_FIVE
+        },
+        {
+          input: ['하나', '둘', '하나'],
+          output: ERROR_TYPE.CAR_NAME_IS_OVERLAPED
+        },
+      ]
 
-      inputs.forEach((input, i) => {
-        expect(validateTries(input)).toBe(outputs[i]);
+      test.each(failCases)("[실패] $output - $input", async ({ input, output }) => {
+        expect(validateCarName(input)).toBe(output);
+      })
+    });
+
+    describe('validateTries', () => {
+      const successCases = [
+        {
+          input: '1',
+          output: ''
+        },
+        {
+          input: '10',
+          output: ''
+        },
+        {
+          input: '3',
+          output: ''
+        },
+      ]
+
+      test.each(successCases)("[성공] 입력: $input", async ({ input, output }) => {
+        expect(validateTries(input)).toBe(output);
+      })
+
+      const failCases = [
+        {
+          input: '   ',
+          output: ERROR_TYPE.TRY_NUMBER_IS_EMPTY
+        },
+        {
+          input: '0',
+          output: ERROR_TYPE.TRY_NUMBER_IS_ZERO
+        },
+        {
+          input: '-1',
+          output: ERROR_TYPE.TRY_NUMBER_HAS_TEXT
+        },
+        {
+          input: 'false',
+          output: ERROR_TYPE.TRY_NUMBER_HAS_TEXT
+        },
+        {
+          input: 'ob02',
+          output: ERROR_TYPE.TRY_NUMBER_HAS_TEXT
+        }
+      ]
+
+      test.each(failCases)("[실패] $output - $input", async ({ input, output }) => {
+        expect(validateTries(input)).toBe(output);
       })
     })
   })

@@ -6,8 +6,16 @@ import { ERROR_TYPE } from '../const.js';
  * @returns {string}
  */
 export function validateCarName(cars) {
-  const hasEmptyName = cars.some((car) => !car.trim());
+  const trimmedNames = cars.map((car) => car.trim());
+
+  const hasEmptyName = trimmedNames.some((car) => car.length === 0);
   if (hasEmptyName) return ERROR_TYPE.CAR_NAME_IS_EMPTY;
+
+  const hasOverNameLength = trimmedNames.some((car) => car.length > 5);
+  if (hasOverNameLength) return ERROR_TYPE.CAR_NAME_LENGTH_IS_OVER_FIVE;
+
+  const hasOverlapedName = trimmedNames.some((car, idx, carArr) => idx !== carArr.lastIndexOf(car));
+  if (hasOverlapedName) return ERROR_TYPE.CAR_NAME_IS_OVERLAPED;
 
   return '';
 }
