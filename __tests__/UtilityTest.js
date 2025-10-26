@@ -12,7 +12,7 @@ import { getCarNames, splitNames } from "../src/utility/input/getCarNames";
 import readUserInput from "../src/utility/input/readUserInput";
 import getTryNumber from "../src/utility/input/getTryNumber";
 
-import { chooseErrorMessage, throwMessage } from "../src/utility/error/errorMessage";
+import { chooseErrorMessage, throwErrorMessage } from "../src/utility/error/errorMessage";
 import handleErrorMessage from "../src/utility/error/errorHandler";
 
 import { ERROR_MESSAGE, ERROR_TYPE } from "../src/utility/const";
@@ -239,13 +239,13 @@ describe("유틸리티 테스트", () => {
   })
 
   describe('error', () => {
-    test("throwMessage, 메시지가 있으면 오류를 던진다.", async () => {
+    test("throwErrorMessage, 메시지가 있으면 오류를 던진다.", async () => {
       const inputs = ['message 1', ''];
       const outputs = ['message 1', ''];
 
       inputs.forEach((input, i) => {
         function fnBox() {
-          throwMessage(input);
+          throwErrorMessage(input);
         }
 
         if (!input) return expect(fnBox).not.toThrow(outputs[i])

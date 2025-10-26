@@ -1,4 +1,4 @@
-import { chooseErrorMessage, throwMessage } from './errorMessage.js';
+import { chooseErrorMessage, throwErrorMessage } from './errorMessage.js';
 
 /**
  * 오류 유형을 받아 메시지로 오류를 던지는 함수
@@ -6,5 +6,5 @@ import { chooseErrorMessage, throwMessage } from './errorMessage.js';
  */
 export default function handleErrorMessage(errorType) {
   const errorMsg = chooseErrorMessage(errorType);
-  throwMessage(errorMsg);
+  throwErrorMessage(errorMsg);
 }
