@@ -7,7 +7,7 @@ import { ERROR_TYPE } from '../const.js';
  */
 export function validateCarName(cars) {
   const hasEmptyName = cars.some((car) => !car.trim());
-  if (hasEmptyName) return ERROR_TYPE.EMPTY_CAR_NAME;
+  if (hasEmptyName) return ERROR_TYPE.CAR_NAME_IS_EMPTY;
 
   return '';
 }
@@ -19,18 +19,21 @@ export function validateCarName(cars) {
  */
 export function validateTries(tries = '') {
   const isEmpty = tries.trim().length === 0;
-  if (isEmpty) return ERROR_TYPE.EMPTY_TRY_NUMBER;
+  if (isEmpty) return ERROR_TYPE.TRY_NUMBER_IS_EMPTY;
 
   const hasText = /\D/.test(tries);
-  if (hasText) return ERROR_TYPE.TRY_HAS_TEXT;
+  if (hasText) return ERROR_TYPE.TRY_NUMBER_HAS_TEXT;
 
   const triesNum = Number(tries);
 
   const isZero = triesNum === 0;
-  if (isZero) return ERROR_TYPE.TRY_NUMBER_ZERO;
+  if (isZero) return ERROR_TYPE.TRY_NUMBER_IS_ZERO;
 
   const isNegative = Math.sign(triesNum) === -1;
-  if (isNegative) return ERROR_TYPE.NEGATIVE_TRY_NUMBER;
+  if (isNegative) return ERROR_TYPE.TRY_NUMBER_IS_NEGATIVE;
+
+  const isNaN = Number.isNaN(triesNum);
+  if (isNaN) return ERROR_TYPE.TRY_NUMBER_IS_NAN;
 
   return '';
 }

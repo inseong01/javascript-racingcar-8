@@ -29,7 +29,7 @@ describe("유틸리티 테스트", () => {
   describe('validate', () => {
     test("validateCarName, 비어있는 이름을 입력한 경우 오류를 반환한다.", async () => {
       const inputs = [['first', 'second', ' ']];
-      const outputs = [ERROR_TYPE.EMPTY_CAR_NAME];
+      const outputs = [ERROR_TYPE.CAR_NAME_IS_EMPTY];
 
       inputs.forEach((input, i) => {
         expect(validateCarName(input)).toBe(outputs[i]);
@@ -38,7 +38,7 @@ describe("유틸리티 테스트", () => {
 
     test("validateTries, 시도 회수가 0 이하면 오류를 반환한다.", async () => {
       const inputs = ['   ', '0', '1', '-1', 'false'];
-      const outputs = [ERROR_TYPE.EMPTY_TRY_NUMBER, ERROR_TYPE.TRY_NUMBER_ZERO, '', ERROR_TYPE.TRY_HAS_TEXT, ERROR_TYPE.TRY_HAS_TEXT];
+      const outputs = [ERROR_TYPE.TRY_NUMBER_IS_EMPTY, ERROR_TYPE.TRY_NUMBER_IS_ZERO, '', ERROR_TYPE.TRY_NUMBER_HAS_TEXT, ERROR_TYPE.TRY_NUMBER_HAS_TEXT];
 
       inputs.forEach((input, i) => {
         expect(validateTries(input)).toBe(outputs[i]);
@@ -255,7 +255,7 @@ describe("유틸리티 테스트", () => {
     })
 
     test("chooseErrorMessage, 오류 유형에 맞는 오류 메시지를 반환한다.", async () => {
-      const inputs = Object.keys(ERROR_TYPE);
+      const inputs = Object.values(ERROR_TYPE);
       const outputs = Object.values(ERROR_MESSAGE);
 
       inputs.forEach((input, i) => {
@@ -264,7 +264,7 @@ describe("유틸리티 테스트", () => {
     })
 
     test("handleErrorMessage, 오류 유형을 전달하면 해당 오류 메시지와 오류를 던진다.", async () => {
-      const inputs = Object.keys(ERROR_TYPE);
+      const inputs = Object.values(ERROR_TYPE);
       const outputs = Object.values(ERROR_MESSAGE);
 
 
