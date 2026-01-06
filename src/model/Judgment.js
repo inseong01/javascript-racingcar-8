@@ -2,7 +2,7 @@ export class Judgment {
   #round
 
   constructor(repeat) {
-    this.#round = new Array(repeat)
+    this.#round = new Array(repeat).fill(0)
   }
 
   getRound() {

@@ -6,6 +6,7 @@ describe('Judgment 모델 테스트', () => {
     const judgment = new Judgment(3)
 
     expect(judgment.getRound().length).toBe(3)
+    expect(judgment.getRound()).toEqual([0, 0, 0])
   })
 
   test('가장 멀리 간 자동차 이름 목록을 반환한다.', () => {
