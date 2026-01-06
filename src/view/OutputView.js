@@ -5,11 +5,13 @@ export class OutputView {
     return Console.print(prompt)
   }
 
-  printRoundResult(cars) {
+  printRoundStart() {
     this.print('실행 결과')
+  }
 
+  printRoundResult(cars) {
     cars.forEach((car) => {
-      this.print(`${car.getName()} : ${'-' * car.getDistance()}`)
+      this.print(`${car.getName()} : ${'-'.repeat(car.getDistance())}`)
     })
   }
 
