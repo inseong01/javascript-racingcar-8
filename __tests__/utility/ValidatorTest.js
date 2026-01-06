@@ -1,4 +1,4 @@
-import { Validator } from "../../src/validator/Validator"
+import { Validator } from "../../src/utility/Validator"
 
 describe('Validator 테스트', () => {
   describe('repeatNumberInput', () => {
